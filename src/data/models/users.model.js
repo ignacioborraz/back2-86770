@@ -7,7 +7,8 @@ const schema = new Schema(
     email: { type: String, required: true, index: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, default: "USER", enum: ["USER", "ADMIN"] },
-    avatar: { type: String },
+    avatar: { type: String, default: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
+    },
   },
   { timestamps: true }
 );

@@ -20,6 +20,15 @@ usersRouter.get("/", async (req, res, next) => {
     next(error);
   }
 });
+usersRouter.get("/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const response = await User.findById(uid);
+    return res.status(200).json({ message: "Read by id", response });
+  } catch (error) {
+    next(error);
+  }
+});
 usersRouter.put("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
