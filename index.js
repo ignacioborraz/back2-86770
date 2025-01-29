@@ -3,6 +3,8 @@ import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+//import fileStore from "session-file-store";
+import MongoStore from "connect-mongo";
 import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.mid.js";
 import pathHandler from "./src/middlewares/pathHandler.mid.js";
@@ -19,6 +21,7 @@ const ready = async () => {
 server.listen(port, ready);
 
 /* middlewares */
+//const FileStore = fileStore(session);
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
@@ -29,7 +32,15 @@ server.use(
     secret: process.env.SESSION_KEY,
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 60 * 1000 * 60 * 24 * 7 },
+    cookie: { maxAge: 60 * 60 * 24 * 7 * 1000 },
+    /*     store: new FileStore({
+      path: "./src/data/sessions",
+      ttl: 60 * 60 * 24 * 7,
+    }), */
+    store: new MongoStore({
+      mongoUrl: process.env.LINK_MONGO,
+      ttl: 60 * 60 * 24 * 7,
+    }),
   })
 );
 server.use("/api/", router);
