@@ -1,7 +1,9 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import User from "../data/models/users.model.js";
 import { compareHash, createHash } from "../utils/hash.util.js";
+import { createToken } from "../utils/token.util.js";
 
 passport.use(
   "register",
@@ -39,18 +41,22 @@ passport.use(
       try {
         const user = await User.findOne({ email });
         if (!user) {
-            const error = new Error("Invalid credentials");
-            error.statusCode = 401;
-            throw error;
-          }
+          const error = new Error("Invalid credentials");
+          error.statusCode = 401;
+          throw error;
+        }
         const verifyPassword = compareHash(password, user.password);
         if (!verifyPassword) {
           const error = new Error("Invalid credentials");
           error.statusCode = 401;
           throw error;
         }
-        req.session.user_id = user._id;
-        req.session.role = user.role;
+        const token = createToken({
+          email: user.email,
+          role: user.role,
+          user_id: user._id,
+        });
+        req.token = token;
         done(null, user);
       } catch (error) {
         done(error);
@@ -59,6 +65,42 @@ passport.use(
   )
   /* la configuración de la estrategia depende de QUE QUIERO HACER */
   /* en este caso quiero INICIAR SESION */
+);
+passport.use(
+  "google",
+  new GoogleStrategy(
+    /* objeto de configuración de la estrategia */
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      callbackURL: "http://localhost:8080/api/auth/google/callback",
+      passReqToCallback: true,
+    },
+    /* callback done con la logica necesaria para la estrategia */
+    async (req, accesToken, refreshToken, profile, done) => {
+      try {
+        let user = await User.findOne({ email: profile.id });
+        if (!user) {
+          user = {
+            email: profile.id,
+            name: profile.name.givenName,
+            avatar: profile.photos[0].value,
+            password: createHash(profile.id),
+          };
+          user = await User.create(user);
+        }
+        const token = createToken({
+          email: user.email,
+          role: user.role,
+          user_id: user._id,
+        });
+        req.token = token;
+        done(null, user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
 );
 
 export default passport;
