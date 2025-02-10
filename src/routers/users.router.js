@@ -1,9 +1,10 @@
 import { Router } from "express";
 import User from "../data/models/users.model.js";
+import passportCb from "../middlewares/passportCb.mid.js";
 
 const usersRouter = Router();
 
-usersRouter.post("/", async (req, res, next) => {
+const createUser = async (req, res, next) => {
   try {
     const data = req.body;
     const response = await User.create(data);
@@ -11,16 +12,16 @@ usersRouter.post("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-usersRouter.get("/", async (req, res, next) => {
+};
+const readAllUser = async (req, res, next) => {
   try {
     const response = await User.find();
     return res.status(200).json({ message: "Read", response });
   } catch (error) {
     next(error);
   }
-});
-usersRouter.get("/:uid", async (req, res, next) => {
+};
+const readOneUser = async (req, res, next) => {
   try {
     const { uid } = req.params;
     const response = await User.findById(uid);
@@ -28,8 +29,8 @@ usersRouter.get("/:uid", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-usersRouter.put("/:uid", async (req, res, next) => {
+};
+const updateOneUser = async (req, res, next) => {
   try {
     const { uid } = req.params;
     const data = req.body;
@@ -39,8 +40,8 @@ usersRouter.put("/:uid", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-usersRouter.delete("/:uid", async (req, res, next) => {
+};
+const destroyOneUser = async (req, res, next) => {
   try {
     const { uid } = req.params;
     const response = await User.findByIdAndDelete(uid);
@@ -48,6 +49,22 @@ usersRouter.delete("/:uid", async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
-});
+};
+
+usersRouter.post("/", createUser);
+usersRouter.get("/", readAllUser);
+usersRouter.get("/:uid", readOneUser);
+usersRouter.put(
+  "/:uid",
+  //passport.authenticate("jwt-auth", { session: false }),
+  passportCb("jwt-auth"),
+  updateOneUser
+);
+usersRouter.delete(
+  "/:uid",
+  //passport.authenticate("jwt-auth", { session: false }),
+  passportCb("jwt-auth"),
+  destroyOneUser
+);
 
 export default usersRouter;

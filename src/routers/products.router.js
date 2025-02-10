@@ -1,27 +1,28 @@
 import { Router } from "express";
 import Product from "../data/models/products.model.js";
-import isAdmin from "../middlewares/isAdmin.mid.js";
+import passportCb from "../middlewares/passportCb.mid.js";
 
 const productsRouter = Router();
 
-productsRouter.post("/", isAdmin, async (req, res, next) => {
+const createProduct = async (req, res, next) => {
   try {
     const data = req.body;
+    data.owner_id = req.user._id
     const response = await Product.create(data);
     return res.status(201).json({ message: "Created", response });
   } catch (error) {
     next(error);
   }
-});
-productsRouter.get("/", async (req, res, next) => {
+};
+const readAllProducts = async (req, res, next) => {
   try {
     const response = await Product.find();
     return res.status(200).json({ message: "Read", response });
   } catch (error) {
     next(error);
   }
-});
-productsRouter.get("/:pid", async (req, res, next) => {
+};
+const readOneProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
     const response = await Product.findById(pid);
@@ -29,8 +30,8 @@ productsRouter.get("/:pid", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-productsRouter.put("/:pid", isAdmin, async (req, res, next) => {
+};
+const updateOneProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
     const data = req.body;
@@ -40,8 +41,8 @@ productsRouter.put("/:pid", isAdmin, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-productsRouter.delete("/:pid", isAdmin, async (req, res, next) => {
+};
+const destroyOneProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
     const response = await Product.findByIdAndDelete(pid);
@@ -49,6 +50,27 @@ productsRouter.delete("/:pid", isAdmin, async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
-});
+};
+productsRouter.post(
+  "/",
+  //passport.authenticate("jwt-adm", { session: false }),
+  passportCb("jwt-adm"),
+
+  createProduct
+);
+productsRouter.get("/", readAllProducts);
+productsRouter.get("/:pid", readOneProduct);
+productsRouter.put(
+  "/:pid",
+  //passport.authenticate("jwt-adm", { session: false }),
+  passportCb("jwt-adm"),
+  updateOneProduct
+);
+productsRouter.delete(
+  "/:pid",
+  //passport.authenticate("jwt-adm", { session: false }),
+  passportCb("jwt-adm"),
+  destroyOneProduct
+);
 
 export default productsRouter;
