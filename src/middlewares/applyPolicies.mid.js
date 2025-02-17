@@ -19,7 +19,6 @@ const applyPolicies = (policies) => async (req, res, next) => {
       req.user = user;
       return next();
     }
-
     return res.json403();
   } catch (error) {
     return next(error);

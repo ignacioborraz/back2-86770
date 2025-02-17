@@ -4,6 +4,7 @@ import usersRouter from "./users.router.js";
 import cookiesRouter from "./cookies.router.js";
 import sessionsRouter from "./sessions.router.js";
 import authRouter from "./auth.router.js";
+import processRouter from "./process.router.js";
 
 class ApiRouter extends CustomRouter {
   constructor() {
@@ -16,6 +17,7 @@ class ApiRouter extends CustomRouter {
     this.router.use("/cookies", cookiesRouter);
     this.router.use("/sessions", sessionsRouter);
     this.router.use("/auth", authRouter);
+    this.router.use("/process", processRouter)
   };
 }
 

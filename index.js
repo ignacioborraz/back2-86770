@@ -1,4 +1,4 @@
-import "dotenv/config.js";
+import "./src/utils/env.util.js";
 import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -9,10 +9,11 @@ import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.mid.js";
 import pathHandler from "./src/middlewares/pathHandler.mid.js";
 import dbConnect from "./src/utils/dbConnect.util.js";
+import argsUtil from "./src/utils/args.util.js";
 
 /* server */
 const server = express();
-const port = 8080;
+const port = argsUtil.p;
 const ready = async () => {
   console.log("server is ready on port " + port);
   await dbConnect();
