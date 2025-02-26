@@ -3,7 +3,7 @@ import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-//import fileStore from "session-file-store";
+import cors from "cors"
 import MongoStore from "connect-mongo";
 import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.mid.js";
@@ -24,6 +24,10 @@ server.listen(port, ready);
 /* middlewares */
 //const FileStore = fileStore(session);
 server.use(morgan("dev"));
+server.use(cors({
+  origin: true,
+  credentials: true
+}))
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
@@ -44,6 +48,6 @@ server.use(
     }),
   })
 );
-server.use("/api/", router);
+server.use("/api", router);
 server.use(errorHandler);
 server.use(pathHandler);

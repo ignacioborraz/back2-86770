@@ -1,5 +1,5 @@
-import CustomRouter from "../utils/CustomRouter.util.js";
-import { readDataOfProcess, readArgs, sumCallback } from "../controllers/process.controller.js"
+import CustomRouter from "../../utils/CustomRouter.util.js";
+import { readDataOfProcess, readArgs, sumCallback } from "../../controllers/process.controller.js"
 
 class ProcessRouter extends CustomRouter {
   constructor() {

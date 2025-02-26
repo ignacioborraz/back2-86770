@@ -4,7 +4,7 @@ const register = async (req, res) => {
 };
 const login = async (req, res) => {
   const { token, user } = req;
-  const opts = { maxAge: 60 * 60 * 24 * 7 * 1000, httpOnly: true };
+  const opts = { maxAge: 60 * 60 * 24 * 7 * 1000 };
   res.cookie("token", token, opts).json200(user, "Logged in");
 };
 const signout = (req, res) =>
@@ -12,7 +12,7 @@ const signout = (req, res) =>
 const online = (req, res) => res.json200(null, "It's online");
 const google = async (req, res) => {
   const { token, user } = req;
-  const opts = { maxAge: 60 * 60 * 24 * 7 * 1000, httpOnly: true };
+  const opts = { maxAge: 60 * 60 * 24 * 7 * 1000};
   res.cookie("token", token, opts).json200(user, "Logged in with google");
 };
 const failure = (req, res) => {

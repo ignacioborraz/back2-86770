@@ -4,10 +4,11 @@ const collection = "users";
 const schema = new Schema(
   {
     name: { type: String },
-    email: { type: String, required: true, index: true, unique: true },
+    date: { type: Date },
+    email: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
-    role: { type: String, default: "USER", enum: ["USER", "ADMIN"] },
-    avatar: { type: String, default: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png" },
+    avatar: { type: String, default: "https://cdn-icons-png.flaticon.com/512/266/266033.png" },
+    role: { type: String, default: "USER", enum: ["USER", "ADMIN", "PREM"], index: true },
   },
   { timestamps: true }
 );

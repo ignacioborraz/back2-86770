@@ -1,23 +1,20 @@
-import { Router } from "express";
-import { createUser, readAllUser, readOneUser, updateOneUser, destroyOneUser } from "../controllers/users.controller.js"
+import CustomRouter from "../utils/CustomRouter.util.js";
+import { createUser, readAllUsers, readOneUser, updateOneUser, destroyOneUser } from "../controllers/users.controller.js";
 import passportCb from "../middlewares/passportCb.mid.js";
 
-const usersRouter = Router();
+class UsersRouter extends CustomRouter {
+  constructor() {
+    super();
+    this.init();
+  }
+  init = () => {
+    this.create("/", ["ADMIN"], createUser);
+    this.read("/", ["ADMIN"], readAllUsers);
+    this.read("/:user_id", ["USER", "ADMIN"], readOneUser);
+    this.update("/:user_id", ["USER", "ADMIN"], passportCb("jwt-auth"), updateOneUser);
+    this.destroy("/:user_id", ["USER", "ADMIN"], passportCb("jwt-auth"), destroyOneUser);
+  };
+}
 
-usersRouter.post("/", createUser);
-usersRouter.get("/", readAllUser);
-usersRouter.get("/:uid", readOneUser);
-usersRouter.put(
-  "/:uid",
-  //passport.authenticate("jwt-auth", { session: false }),
-  passportCb("jwt-auth"),
-  updateOneUser
-);
-usersRouter.delete(
-  "/:uid",
-  //passport.authenticate("jwt-auth", { session: false }),
-  passportCb("jwt-auth"),
-  destroyOneUser
-);
-
-export default usersRouter;
+const usersRouter = new UsersRouter();
+export default usersRouter.getRouter();

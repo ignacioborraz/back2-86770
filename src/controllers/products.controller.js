@@ -1,4 +1,3 @@
-import Product from "../data/models/products.model.js";
 import productsService from "../services/products.service.js";
 
 const createProduct = async (req, res) => {
@@ -13,8 +12,8 @@ const readAllProducts = async (req, res) => {
   res.json200(response);
 };
 const readOneProduct = async (req, res) => {
-  const { pid } = req.params;
-  const response = await productsService.readOneProduct(pid);
+  const { product_id } = req.params;
+  const response = await productsService.readOneProduct(product_id);
   if (!response) {
     res.json404();
   } else {
@@ -22,9 +21,9 @@ const readOneProduct = async (req, res) => {
   }
 };
 const updateOneProduct = async (req, res) => {
-  const { pid } = req.params;
+  const { product_id } = req.params;
   const data = req.body;
-  const response = await productsService.updateOneProduct(pid, data);
+  const response = await productsService.updateOneProduct(product_id, data);
   if (!response) {
     res.json404();
   } else {
@@ -32,8 +31,8 @@ const updateOneProduct = async (req, res) => {
   }
 };
 const destroyOneProduct = async (req, res) => {
-  const { pid } = req.params;
-  const response = await productsService.destroyOneProduct(pid);
+  const { product_id } = req.params;
+  const response = await productsService.destroyOneProduct(product_id);
   if (!response) {
     res.json404();
   } else {
@@ -41,10 +40,4 @@ const destroyOneProduct = async (req, res) => {
   }
 };
 
-export {
-  createProduct,
-  readAllProducts,
-  readOneProduct,
-  updateOneProduct,
-  destroyOneProduct,
-};
+export { createProduct, readAllProducts, readOneProduct, updateOneProduct, destroyOneProduct };
