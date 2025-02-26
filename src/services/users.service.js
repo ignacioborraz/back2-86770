@@ -1,27 +1,14 @@
-import User from "../data/models/users.model.js";
+//import { usersManager } from "../data/mongo/manager.mongo.js";
+//import { usersManager } from "../data/fs/manager.fs.js";
+//import { usersManager } from "../data/memory/manager.memory.js";
+import { usersManager } from "../data/dao.js";
 
 class UsersService {
-  createUser = async (data) => {
-    const response = await User.create(data);
-    return response;
-  };
-  readAllUsers = async () => {
-    const response = await User.find();
-    return response;
-  };
-  readOneUser = async (pid) => {
-    const response = await User.findById(pid);
-    return response;
-  };
-  updateOneUser = async (pid, data) => {
-    const opt = { new: true };
-    const response = await User.findByIdAndUpdate(pid, data, opt);
-    return response;
-  };
-  destroyOneUser = async (pid) => {
-    const response = await User.findByIdAndDelete(pid);
-    return response;
-  };
+  createUser = async (data) => await usersManager.create(data);
+  readAllUsers = async () => await usersManager.read();
+  readOneUser = async (uid) => await usersManager.readById(uid);
+  updateOneUser = async (uid, data) => await usersManager.updateById(uid, data);
+  destroyOneUser = async (uid) => await usersManager.destroyById(uid);
 }
 
 const usersService = new UsersService();

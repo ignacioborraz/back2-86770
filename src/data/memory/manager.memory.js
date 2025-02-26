@@ -8,13 +8,11 @@ class MemoryManager {
     this.data.push(newItem);
     return newItem;
   }
-
   async read(filter = {}) {
     return this.data.filter((item) =>
       Object.entries(filter).every(([key, value]) => item[key] === value)
     );
   }
-
   async readBy(data) {
     return (
       this.data.find((item) =>
@@ -22,18 +20,15 @@ class MemoryManager {
       ) || null
     );
   }
-
   async readById(id) {
     return this.data.find((item) => item.id === id) || null;
   }
-
   async updateById(id, data) {
     const index = this.data.findIndex((item) => item.id === id);
     if (index === -1) return null;
     this.data[index] = { ...this.data[index], ...data };
     return this.data[index];
   }
-
   async destroyById(id) {
     const index = this.data.findIndex((item) => item.id === id);
     if (index === -1) return null;

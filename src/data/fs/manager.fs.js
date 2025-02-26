@@ -26,14 +26,12 @@ class FSManager {
     await this._writeFile(items);
     return newItem;
   }
-
   async read(filter = {}) {
     const items = await this._readFile();
     return items.filter((item) =>
       Object.entries(filter).every(([key, value]) => item[key] === value)
     );
   }
-
   async readBy(data) {
     const items = await this._readFile();
     return (
@@ -42,12 +40,10 @@ class FSManager {
       ) || null
     );
   }
-
   async readById(id) {
     const items = await this._readFile();
     return items.find((item) => item.id === id) || null;
   }
-
   async updateById(id, data) {
     const items = await this._readFile();
     const index = items.findIndex((item) => item.id === id);
@@ -56,7 +52,6 @@ class FSManager {
     await this._writeFile(items);
     return items[index];
   }
-
   async destroyById(id) {
     const items = await this._readFile();
     const newItems = items.filter((item) => item.id !== id);
