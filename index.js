@@ -1,10 +1,10 @@
 import "./src/utils/env.util.js";
 import express from "express";
+import { engine } from "express-handlebars";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import session from "express-session";
-import cors from "cors"
-import MongoStore from "connect-mongo";
+import cors from "cors";
+import __dirname from "./utils.js";
 import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.mid.js";
 import pathHandler from "./src/middlewares/pathHandler.mid.js";
@@ -21,33 +21,21 @@ const ready = async () => {
 };
 server.listen(port, ready);
 
+/* engine settings */
+server.engine("handlebars", engine());
+server.set("view engine", "handlebars");
+server.set("views", __dirname + "/src/views");
+
 /* middlewares */
 //const FileStore = fileStore(session);
 server.use(morgan("dev"));
-server.use(cors({
-  origin: true,
-  credentials: true
-}))
+server.use(cookieParser(process.env.COOKIE_KEY));
+server.use(cors({ origin: true, credentials: true }));
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
-server.use(cookieParser(process.env.COOKIE_KEY));
-server.use(
-  session({
-    secret: process.env.SESSION_KEY,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 24 * 7 * 1000 },
-    /*     store: new FileStore({
-      path: "./src/data/sessions",
-      ttl: 60 * 60 * 24 * 7,
-    }), */
-    store: new MongoStore({
-      mongoUrl: process.env.LINK_MONGO,
-      ttl: 60 * 60 * 24 * 7,
-    }),
-  })
-);
+
+/* routers settings */
 server.use("/api", router);
 server.use(errorHandler);
 server.use(pathHandler);

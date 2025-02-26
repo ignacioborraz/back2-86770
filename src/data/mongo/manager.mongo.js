@@ -1,0 +1,13 @@
+class Manager {
+  constructor(model) {
+    this.model = model;
+  }
+  create = async (data) => await this.model.create(data);
+  read = async (filter) => await this.model.find(filter).lean();
+  readBy = async (data) => await this.model.findOne(data).lean();
+  readById = async (id) => await this.model.findOne({ _id: id }).lean();
+  updateById = async (id, data) => await this.model.findOneAndUpdate({ _id: id }, data, { new: true });
+  destroyById = async (id) => await this.model.findOneAndDelete({ _id: id });
+}
+
+export default Manager;

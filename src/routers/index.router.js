@@ -1,4 +1,5 @@
 import CustomRouter from "../utils/CustomRouter.util.js";
+//import viewsRouter from "./views.router.js";
 import productsRouter from "./products.router.js";
 import usersRouter from "./users.router.js";
 import authRouter from "./auth.router.js";
@@ -10,6 +11,7 @@ class ApiRouter extends CustomRouter {
     this.init();
   }
   init = () => {
+    //this.router.use("/", viewsRouter);
     this.router.use("/products", productsRouter);
     this.router.use("/users", usersRouter);
     this.router.use("/auth", authRouter);

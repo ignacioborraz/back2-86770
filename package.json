@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node ./index.js",
     "dev": "node --watch ./index.js",
+    "fs": "node --watch ./index.js --pers fs",
     "test": "node ./index.js -p 9000 --mode test --pers mongo",
     "prod": "node ./index.js -p 9000 --mode prod --pers mongo"
   },
@@ -21,6 +22,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
     "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",

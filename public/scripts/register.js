@@ -1,6 +1,9 @@
-document.querySelector("#login").addEventListener("click", async () => {
+document.querySelector("#register").addEventListener("click", async () => {
     try {
       const data = {
+        name: document.querySelector("#name").value,
+        avatar: document.querySelector("#avatar").value,
+        date: document.querySelector("#date").value,
         email: document.querySelector("#email").value,
         password: document.querySelector("#password").value,
       };
@@ -9,12 +12,12 @@ document.querySelector("#login").addEventListener("click", async () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       };
-      let response = await fetch("/api/users/login", opts);
+      let response = await fetch("/api/users", opts);
       response = await response.json();
+      console.log(response);
       if (response.error) {
         alert(response.error);
       } else {
-        localStorage.setItem("user_id", response.response)
         location.replace("/");
       }
     } catch (error) {
