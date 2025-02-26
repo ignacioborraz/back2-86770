@@ -2,9 +2,10 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import User from "../data/models/users.model.js";
+import { usersManager } from "../data/dao.js";
 import { compareHash, createHash } from "../utils/hash.util.js";
 import { createToken } from "../utils/token.util.js";
+import UserDto from "../data/dto/users.dto.js";
 
 passport.use(
   "register",
@@ -19,12 +20,11 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        const one = await User.findOne({ email });
+        const one = await usersManager.readBy({ email });
         if (one) {
           return done(null, null, { message: "Invalid credentials", statusCode: 401 });
         }
-        req.body.password = createHash(password);
-        const user = await User.create(req.body);
+        const user = await usersManager.create(new UserDto(req.body));
         done(null, user);
       } catch (error) {
         done(error);
@@ -38,7 +38,7 @@ passport.use(
     { passReqToCallback: true, usernameField: "email" },
     async (req, email, password, done) => {
       try {
-        const user = await User.findOne({ email });
+        const user = await usersManager.readBy({ email });
         if (!user) {
           return done(null, null, { message: "Invalid credentials", statusCode: 401 });
         }

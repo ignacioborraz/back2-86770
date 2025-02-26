@@ -8,7 +8,7 @@ class UsersRouter extends CustomRouter {
     this.init();
   }
   init = () => {
-    this.create("/", ["ADMIN"], createUser);
+    this.create("/", ["PUBLIC"], createUser);
     this.read("/", ["ADMIN"], readAllUsers);
     this.read("/:user_id", ["USER", "ADMIN"], readOneUser);
     this.update("/:user_id", ["USER", "ADMIN"], passportCb("jwt-auth"), updateOneUser);

@@ -4,9 +4,8 @@ class MemoryManager {
   }
 
   async create(data) {
-    const newItem = { id: Date.now().toString(), ...data };
-    this.data.push(newItem);
-    return newItem;
+    this.data.push(data);
+    return data;
   }
   async read(filter = {}) {
     return this.data.filter((item) =>

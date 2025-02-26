@@ -21,10 +21,9 @@ class FSManager {
 
   async create(data) {
     const items = await this._readFile();
-    const newItem = { id: Date.now().toString(), ...data };
-    items.push(newItem);
+    items.push(data);
     await this._writeFile(items);
-    return newItem;
+    return data;
   }
   async read(filter = {}) {
     const items = await this._readFile();
@@ -42,11 +41,11 @@ class FSManager {
   }
   async readById(id) {
     const items = await this._readFile();
-    return items.find((item) => item.id === id) || null;
+    return items.find((item) => item._id === id) || null;
   }
   async updateById(id, data) {
     const items = await this._readFile();
-    const index = items.findIndex((item) => item.id === id);
+    const index = items.findIndex((item) => item._id === id);
     if (index === -1) return null;
     items[index] = { ...items[index], ...data };
     await this._writeFile(items);
@@ -54,7 +53,7 @@ class FSManager {
   }
   async destroyById(id) {
     const items = await this._readFile();
-    const newItems = items.filter((item) => item.id !== id);
+    const newItems = items.filter((item) => item._id !== id);
     if (items.length === newItems.length) return null;
     await this._writeFile(newItems);
     return { message: "Elemento eliminado correctamente" };
