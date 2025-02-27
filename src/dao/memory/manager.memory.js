@@ -20,16 +20,16 @@ class MemoryManager {
     );
   }
   async readById(id) {
-    return this.data.find((item) => item.id === id) || null;
+    return this.data.find((item) => item._id === id) || null;
   }
   async updateById(id, data) {
-    const index = this.data.findIndex((item) => item.id === id);
+    const index = this.data.findIndex((item) => item._id === id);
     if (index === -1) return null;
     this.data[index] = { ...this.data[index], ...data };
     return this.data[index];
   }
   async destroyById(id) {
-    const index = this.data.findIndex((item) => item.id === id);
+    const index = this.data.findIndex((item) => item._id === id);
     if (index === -1) return null;
     this.data.splice(index, 1);
     return { message: "Elemento eliminado correctamente" };
@@ -40,5 +40,6 @@ export default MemoryManager;
 
 const productsManager = new MemoryManager();
 const usersManager = new MemoryManager();
+const cartsManager = new MemoryManager();
 
-export { productsManager, usersManager };
+export { productsManager, usersManager, cartsManager };

@@ -2,10 +2,10 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { usersManager } from "../data/dao.js";
+import { usersManager } from "../dao/index.dao.js";
 import { compareHash, createHash } from "../utils/hash.util.js";
 import { createToken } from "../utils/token.util.js";
-import UserDto from "../data/dto/users.dto.js";
+import UserDto from "../dto/users.dto.js";
 
 passport.use(
   "register",

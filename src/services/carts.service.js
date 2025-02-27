@@ -1,23 +1,11 @@
-import Cart from "../data/models/carts.model.js";
+import { cartsManager } from "../dao/index.dao.js";
+import CartDto from "../dto/carts.dto.js";
 
 class CartsService {
-  addProductToCart = async (data) => {
-    const response = await Cart.create(data);
-    return response;
-  };
-  readProductsFromUser = async (data) => {
-    const response = await Cart.find(data);
-    return response;
-  };
-  updateCart = async (cart_id, data) => {
-    const opt = { new: true };
-    const response = await Cart.findByIdAndUpdate(cart_id, data, opt);
-    return response;
-  };
-  removeProductFromCart = async (cart_id) => {
-    const response = await Cart.findByIdAndDelete(cart_id);
-    return response;
-  };
+  addProductToCart = async (data) => await cartsManager.create(new CartDto(data));
+  readProductsFromUser = async (data) => await cartsManager.read(data);
+  updateCart = async (cart_id, data) => await cartsManager.updateById(cart_id, data, { new: true });
+  removeProductFromCart = async (cart_id) => await cartsManager.destroyById(cart_id);
 }
 
 const cartsService = new CartsService();

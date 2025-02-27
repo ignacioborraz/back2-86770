@@ -3,7 +3,7 @@ import path from "path";
 
 class FSManager {
   constructor(fileName) {
-    this.filePath = path.resolve(`./src/data/fs/files${fileName}.json`);
+    this.filePath = path.resolve(`./src/dao/fs/files/${fileName}.json`);
   }
 
   async _readFile() {
@@ -56,7 +56,7 @@ class FSManager {
     const newItems = items.filter((item) => item._id !== id);
     if (items.length === newItems.length) return null;
     await this._writeFile(newItems);
-    return { message: "Elemento eliminado correctamente" };
+    return id;
   }
 }
 
@@ -64,5 +64,6 @@ export default FSManager;
 
 const productsManager = new FSManager("products");
 const usersManager = new FSManager("users");
+const cartsManager = new FSManager("carts");
 
-export { productsManager, usersManager };
+export { productsManager, usersManager, cartsManager };

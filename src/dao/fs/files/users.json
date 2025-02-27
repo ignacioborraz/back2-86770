@@ -7,5 +7,14 @@
     "role": "ADMIN",
     "createdAt": "2025-02-26T22:27:49.808Z",
     "updatedAt": "2025-02-26T22:27:49.808Z"
+  },
+  {
+    "_id": "78e2b60e274754ffb88b3788",
+    "email": "test@coder.com",
+    "password": "$2b$10$ydwQtzhgZ.5zD1HNzKZll.C4p5WQ5BcyWUP.VVgP3Yjhw3Rdtau2C",
+    "avatar": "https://cdn-icons-png.flaticon.com/512/266/266033.png",
+    "role": "USER",
+    "createdAt": "2025-02-27T03:57:28.269Z",
+    "updatedAt": "2025-02-27T03:57:28.269Z"
   }
 ]

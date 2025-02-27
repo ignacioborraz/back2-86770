@@ -6,7 +6,6 @@ class CustomRouter {
     this.router = Router();
     this.use(this.setupResponses);
   }
-  /* continua */
   getRouter = () => this.router;
   applyMiddlewares = (middlewares) =>
     middlewares.map((each) => async (req, res, next) => {

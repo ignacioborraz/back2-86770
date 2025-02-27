@@ -1,15 +1,15 @@
-//import { productsManager } from "../data/mongo/manager.mongo.js";
-//import { productsManager } from "../data/fs/manager.fs.js";
-//import { productsManager } from "../data/memory/manager.memory.js";
-import { productsManager } from "../data/dao.js";
-import ProductDto from "../data/dto/product.dto.js";
+//import { productsManager } from "../dao/mongo/manager.mongo.js";
+//import { productsManager } from "../dao/fs/manager.fs.js";
+//import { productsManager } from "../dao/memory/manager.memory.js";
+import { productsManager } from "../dao/index.dao.js";
+import ProductDto from "../dto/products.dto.js";
 
 class ProductsService {
-  createProduct = async (data) => await productsManager.create(dataDto);
-  readAllProducts = async () => await productsManager.read();
-  readOneProduct = async (pid) => await productsManager.readById(pid);
-  updateOneProduct = async (pid, data) => await productsManager.updateById(pid, data);
-  destroyOneProduct = async (pid) => await productsManager.destroyById(pid);
+  create = async (data) => await productsManager.create(new ProductDto(data));
+  read = async (data) => await productsManager.read(data);
+  readById = async (id) => await productsManager.readById(id);
+  updateById = async (id, data) => await productsManager.updateById(id, data);
+  destroyById = async (id) => await productsManager.destroyById(id);
 }
 
 const productsService = new ProductsService();

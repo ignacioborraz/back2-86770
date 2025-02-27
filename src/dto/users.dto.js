@@ -1,6 +1,6 @@
 import crypto from "crypto";
-import argsUtil from "../../utils/args.util.js";
-import { createHash } from "../../utils/hash.util.js";
+import argsUtil from "../utils/args.util.js";
+import { createHash } from "../utils/hash.util.js";
 const { pers } = argsUtil;
 
 class UserDto {
