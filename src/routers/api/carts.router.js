@@ -1,5 +1,5 @@
-import CustomRouter from "../utils/CustomRouter.util.js";
-import { addProductToCart, readProductsFromUser, updateQuantity, updateState, removeProductFromCart } from "../controllers/carts.controller.js";
+import CustomRouter from "../../utils/CustomRouter.util.js";
+import { addProductToCart, readProductsFromUser, updateQuantity, updateState, removeProductFromCart } from "../../controllers/carts.controller.js";
 
 class ProductsRouter extends CustomRouter {
   constructor() {

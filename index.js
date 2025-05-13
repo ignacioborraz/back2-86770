@@ -31,6 +31,6 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
 
 /* routers settings */
-server.use("/api", router);
+server.use("/", router);
 server.use(errorHandler);
 server.use(pathHandler);

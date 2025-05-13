@@ -1,6 +1,6 @@
-import CustomRouter from "../utils/CustomRouter.util.js";
-import { createUser, readAllUsers, readOneUser, updateOneUser, destroyOneUser } from "../controllers/users.controller.js";
-import passportCb from "../middlewares/passportCb.mid.js";
+import CustomRouter from "../../utils/CustomRouter.util.js";
+import { createUser, readAllUsers, readOneUser, updateOneUser, destroyOneUser } from "../../controllers/users.controller.js";
+import passportCb from "../../middlewares/passportCb.mid.js";
 
 class UsersRouter extends CustomRouter {
   constructor() {

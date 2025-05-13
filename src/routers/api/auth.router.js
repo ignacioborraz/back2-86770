@@ -1,6 +1,6 @@
-import CustomRouter from "../utils/CustomRouter.util.js";
-import { register, login, signout, online, google, failure } from "../controllers/auth.controller.js"
-import passportCb from "../middlewares/passportCb.mid.js";
+import CustomRouter from "../../utils/CustomRouter.util.js";
+import { register, login, signout, online, google, failure, twilio, nodemailer, verify } from "../../controllers/auth.controller.js"
+import passportCb from "../../middlewares/passportCb.mid.js";
 
 class AuthRouter extends CustomRouter {
   constructor() {
@@ -15,6 +15,9 @@ class AuthRouter extends CustomRouter {
     this.read("/google", ["PUBLIC"], passportCb("google"));
     this.read("/google/callback", ["PUBLIC"], passportCb("google"), google);
     this.read("/google/failure", ["PUBLIC"], failure);
+    this.read("/twilio/:phone", ["PUBLIC"], twilio)
+    this.read("/nodemailer/:email", ["PUBLIC"], nodemailer)
+    this.create("/verify", ["PUBLIC"], verify)
   };
 }
 

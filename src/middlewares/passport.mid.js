@@ -1,4 +1,5 @@
 import passport from "passport";
+import crypto from "crypto";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
@@ -6,6 +7,7 @@ import { usersManager } from "../dao/index.dao.js";
 import { compareHash, createHash } from "../utils/hash.util.js";
 import { createToken } from "../utils/token.util.js";
 import UserDto from "../dto/users.dto.js";
+import verifyAccount from "../utils/verifyAccount.util.js";
 
 passport.use(
   "register",
@@ -24,7 +26,11 @@ passport.use(
         if (one) {
           return done(null, null, { message: "Invalid credentials", statusCode: 401 });
         }
+        /* antes de crear al usuario necesito generar el codigo de verificación */
+        const verifyCode = crypto.randomBytes(12).toString("hex")
+        req.body.verifyCode = verifyCode
         const user = await usersManager.create(new UserDto(req.body));
+        await verifyAccount({ to: email, verifyCode })
         done(null, user);
       } catch (error) {
         done(error);
@@ -41,6 +47,10 @@ passport.use(
         const user = await usersManager.readBy({ email });
         if (!user) {
           return done(null, null, { message: "Invalid credentials", statusCode: 401 });
+        }
+        const verifyUser = user.verify
+        if (!verifyUser) {
+          return done(null, null, { message: "Not verified account", statusCode: 401 });
         }
         const verifyPassword = compareHash(password, user.password);
         if (!verifyPassword) {

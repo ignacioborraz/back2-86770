@@ -1,7 +1,5 @@
 import { Router } from "express";
-import productsManager from "../data/products.mongo.js";
-import usersManager from "../data/users.mongo.js";
-import cartsManager from "../data/carts.mongo.js";
+import { productsManager, usersManager, cartsManager } from "../dao/index.dao.js";
 
 const viewsRouter = Router();
 
