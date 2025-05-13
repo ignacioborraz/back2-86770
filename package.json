@@ -9,7 +9,10 @@
     "dev": "node --watch ./index.js",
     "fs": "node --watch ./index.js --pers fs",
     "test": "node ./index.js -p 9000 --mode test --pers mongo",
-    "prod": "node ./index.js -p 9000 --mode prod --pers mongo"
+    "prod": "node ./index.js -p 9000 --mode prod --pers mongo",
+    "build-image": "docker build -t commerce .",
+    "retag-image": "docker tag commerce ignacioborraz/commerce:1.0.0",
+    "push-image": "docker push ignacioborraz/commerce:1.0.0"
   },
   "keywords": [],
   "author": "",
