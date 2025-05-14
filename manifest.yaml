@@ -5,7 +5,7 @@ kind: Deployment
 
 metadata:
   # Nombre del deployment
-  name: commerce
+  name: commerce-deploy
 
 spec:
   # Número de Pods (instancias del contenedor)

@@ -12,7 +12,9 @@
     "prod": "node ./index.js -p 9000 --mode prod --pers mongo",
     "build-image": "docker build -t commerce .",
     "retag-image": "docker tag commerce ignacioborraz/commerce:1.0.0",
-    "push-image": "docker push ignacioborraz/commerce:1.0.0"
+    "push-image": "docker push ignacioborraz/commerce:1.0.0",
+    "apply-manifest": "kubectl apply -f manifest.yaml",
+    "run-service-minikube": "minikube service commerce-service"
   },
   "keywords": [],
   "author": "",
